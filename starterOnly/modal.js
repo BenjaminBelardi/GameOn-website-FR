@@ -16,12 +16,39 @@ const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 // code add by bb
+const modalPopup = document.querySelector(".popup-form-valid");
+const modalPopupBtn = document.querySelector(".button");
 const modalClose = document.querySelector(".close");
-const errorMessage = {
-  FirstLastErrMsg : "Veuillez entrer au moins 2 caractères",
-  emailErrMsg : "Veuillez entrer un email valide",
-  birdateErrMsg : "Veuillez entrer votre date de naissance",
-  quantityErrMsg : "Veuillez rentrer un nombre entre 0 et 99"
+let radioCheck =[];
+const validationTypes = {
+  first: {
+    errorMsg: "Veuillez entrer au moins 2 caractères",
+    fct: "FirstLastIsValid"
+  },
+  last: {
+    errorMsg: "Veuillez entrer au moins 2 caractères",
+    fct: "FirstLastIsValid"
+  },
+  email: {
+    errorMsg: "Veuillez entrer un email valide",
+    fct: "EmailIsValid"
+  }, 
+  birthdate: {
+    errorMsg: "Veuillez entrer votre date de naissance",
+    fct: "BirthdateIsValid"
+  },
+  quantity:{
+    errorMsg: "Veuillez rentrer un nombre entre 0 et 99",
+    fct: "QuantityIsValid"
+  },
+  radio:{
+    errorMsg: "Veuillez selectionner une ville",
+    fct: "RadioIsValid"
+  },
+  checkbox:{
+    errorMsg: "Veuillez accepté les conditions d'utilisations",
+    fct: "CheckboxIsValid"
+  }
 } ;
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -34,10 +61,23 @@ function launchModal() {
 // code add by BB
 // close modal event
 modalClose.addEventListener("click", closeModal);
+//modalPopupBtn.addEventListener("click",closeModalPopup());
 //close modal form
 function closeModal(){
   modalbg.style.display = "none";
 }
+//close confirm modal popup
+function closeConfirmModalPopUp(){
+  modalPopup.style.display = "none";
+}
+//confirm modal popup
+function confirmModal(){
+  closeModal();
+  modalPopup.style.display = "block";
+  modalPopupBtn.addEventListener("click", closeConfirmModalPopUp);
+
+}
+
 function addErrorMessage(elt, errorMessage){
   elt.parentNode.setAttribute("data-error-visible", "true");
   elt.parentNode.setAttribute("data-error", errorMessage);
@@ -46,14 +86,14 @@ function removeErrorMessage(elt){
   elt.parentNode.removeAttribute("data-error-visible");
   elt.parentNode.removeAttribute("data-error");
 }
-function FirstLastIsValid (elt){
+function FirstLastIsValid(elt){
   let isValid = true;
   if (elt.value.length <2){
     isValid = false;
   }
   return isValid;
 }
-function emailIsValid (elt){
+function EmailIsValid(elt){
   let isValid = true;
   if (!emailReg.test(elt.value)){
     isValid = false;
@@ -61,7 +101,7 @@ function emailIsValid (elt){
   return isValid;
 }
 
-function birthdateIsValid (elt){
+function BirthdateIsValid(elt){
   let isValid = true;
   if (!dateReg.test(elt.value)){
     isValid = false;
@@ -69,73 +109,69 @@ function birthdateIsValid (elt){
   return isValid;
 }
 
-function quantityIsValid (elt){
+function QuantityIsValid(elt){
   let isValid = true;
   if (elt.value == "" ||  isNaN(elt.value)){
     isValid = false;
   }
   return isValid;
 }
+function RadioIsValid(elt){
+  radioCheck.push(elt.checked);
+  if (radioCheck.length == 6){
+    return radioCheck.includes(true);
+  }
+  return true;
+}
+function CheckboxIsValid(elt){
+  if (elt.id == "checkbox1"){
+    return elt.checked === true;
+  }
+}
 
+ function validate(myForm){
+  let validations = {
+    first: true,
+    last: true, 
+    email: true,
+    birthdate: true,
+    quantity: true,
+    radio: true,
+    checkbox: true,
+  }
+   for (let element of myForm){
+    if (element.type == "radio" || element.type == "checkbox" && element.id !== "checkbox2"){
+     if (!window[validationTypes[element.type].fct](element)) {
+       addErrorMessage(element, validationTypes[element.type].errorMsg);
+       validations[element.type] = false;
+     } else {
+       validations[element.type] = true;
+       removeErrorMessage(element);
+     }
+    }
 
- function validate(frm){
-  let firstValid, lastValid, emailValid, birthdateValid, quantityValid;
-   for (let elt of frm){
-        if(elt.id == "first"){ 
-          if (!FirstLastIsValid(elt)){
-          console.log(elt.value);
-          addErrorMessage(elt, errorMessage.FirstLastErrMsg);
-          firstValid = false;
-          }else{
-          firstValid = true;
-          removeErrorMessage(elt);
-          }
-        }else if(elt.id == "last"){ 
-          if (!FirstLastIsValid(elt)){
-          console.log(elt.value);
-          addErrorMessage(elt, errorMessage.FirstLastErrMsg);
-          lastValid = false;
-          }else{
-          lastValid = true;
-          removeErrorMessage(elt);
-          }
-        }else if (elt.id == "email"){
-          if (!emailIsValid(elt)){
-            console.log(elt.value);
-            addErrorMessage(elt, errorMessage.emailErrMsg);
-            emailValid = false;
-            }else{
-            removeErrorMessage(elt);
-            emailValid = true;
-            }
-        }else if (elt.id == "birthdate"){
-          if (!birthdateIsValid(elt)){
-            console.log(elt.value);
-            addErrorMessage(elt, errorMessage.birdateErrMsg);
-            birthdateValid = false;
-            }else{
-            birthdateValid = true;
-            removeErrorMessage(elt);
-            }
-        }else if (elt.id == "quantity"){
-          if (!quantityIsValid(elt)){
-            console.log(elt.value);
-            addErrorMessage(elt, errorMessage.quantityErrMsg);
-            quantityValid = false;
-            }else{
-            removeErrorMessage(elt);
-            quantityValid = true;
-            }
-        }
+   if (element.type !== "radio" && element.type !== "checkbox" && element.type !== "submit") {
+     if (!window[validationTypes[element.id].fct](element)) {
+       addErrorMessage(element, validationTypes[element.id].errorMsg);
+       validations[element.id] = false;
+     } else {
+       validations[element.id] = true;
+       removeErrorMessage(element);
+     }
    }
-   if (!firstValid || !lastValid || !emailValid || !birthdateValid || !quantityValid){
-       return false;
-       frm.preventDefault();
-       }else{
-       prompt("Merci! votre demande d'inscription a bien été envoyée");
+ }
+   let noErrors = Object.keys(validations).every(function (k) {
+      return validations[k] === true;
+   });
+   if (noErrors){
+      confirmModal();
+      myForm.preventDefault();
+    }else{
+      return false;
        }
  }
-        
+      
+
 
 
           
