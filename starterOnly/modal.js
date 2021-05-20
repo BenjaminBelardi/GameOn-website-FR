@@ -45,10 +45,11 @@ const validationTypes = {
     fct: "RadioIsValid"
   },
   checkbox: {
-    errorMsg: "Veuillez accepté les conditions d'utilisations",
+    errorMsg: "Veuillez accepter les conditions d'utilisations",
     fct: "CheckboxIsValid"
   }
 };
+// strore the validity off all input form elements tested
 let validations = {
   first: false,
   last: false,
@@ -133,8 +134,9 @@ function CheckboxIsValid(elt) {
     return elt.checked === true;
   }
 }
+// add event "inout" for all input form elements
 formData.forEach((input) => input.addEventListener("input", ValidModal));
-// strore the validity off all form elements tested in the object
+// test the validity of all input elements
 function ValidModal(){
   radioCheck = [];
   for (let element of formData) {
