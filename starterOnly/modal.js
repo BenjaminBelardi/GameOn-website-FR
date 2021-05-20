@@ -12,8 +12,8 @@ const dateReg = new RegExp(/^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/)
 // DOM Elements
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
-const formData = document.querySelectorAll(".formData");
-
+const formData = document.querySelectorAll("input");
+const radio = document.querySelectorAll("[type='radio']");
 const modalPopup = document.querySelector(".popup-form-valid");
 const modalPopupBtn = document.querySelector(".button-confirm");
 const modalClose = document.querySelector(".close");
@@ -48,6 +48,15 @@ const validationTypes = {
     errorMsg: "Veuillez accepté les conditions d'utilisations",
     fct: "CheckboxIsValid"
   }
+};
+let validations = {
+  first: false,
+  last: false,
+  email: false,
+  birthdate: false,
+  quantity: false,
+  radio: false,
+  checkbox: false,
 };
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -107,34 +116,28 @@ function QuantityIsValid(elt) {
   let isValid = true;
   if (elt.value == "" || isNaN(elt.value)) {
     isValid = false;
+  }else if (elt.value == 0){
+    radio.forEach((status) => status.checked = false);
   }
   return isValid;
 }
 function RadioIsValid(elt) {
   radioCheck.push(elt.checked);
-  if (radioCheck.length == 6) {
-    return radioCheck.includes(true);
+  if (radioCheck.length == 6 && radioCheck.includes(true) || formData[4].value == 0) {
+    return true, radioCheck = [];
   }
-  return true;
+  return false;
 }
 function CheckboxIsValid(elt) {
   if (elt.id == "checkbox1") {
     return elt.checked === true;
   }
 }
-// form validation
-function validate(myForm) {
-  // strore the validity off all form elements tested in the object
-  let validations = {
-    first: true,
-    last: true,
-    email: true,
-    birthdate: true,
-    quantity: true,
-    radio: true,
-    checkbox: true,
-  }
-  for (let element of myForm) {
+formData.forEach((input) => input.addEventListener("input", ValidModal));
+// strore the validity off all form elements tested in the object
+function ValidModal(){
+  radioCheck = [];
+  for (let element of formData) {
     if (element.type == "radio" || element.type == "checkbox" && element.id !== "checkbox2") {
       if (!window[validationTypes[element.type].fct](element)) {
         addErrorMessage(element, validationTypes[element.type].errorMsg);
@@ -154,6 +157,10 @@ function validate(myForm) {
       }
     }
   }
+}
+// form validation
+function validate(myForm) {
+  ValidModal();
   //check if all form input are valid
   let noErrors = Object.keys(validations).every(function (k) {
     return validations[k] === true;
