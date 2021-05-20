@@ -542,22 +542,23 @@ footer {
   display: none;
   position:fixed;
   top: 5%;
-  left:25%;
+  left:50%;
   animation-name: modalopen;
   animation-duration: var(--modal-duration);
   background: #232323;
   border-radius: 10px;
   overflow: hidden;
   z-index: 1;
-  height:10vh;
-  width:40vh;
+  width:46vh;
+  margin-left: -23vh;
+  padding: 5px 5px 10px 5px;
 }
 .msg-valid{
   display: block;
   font-size: 1rem;
   color: #fff;
   font-weight: 100;
-  margin-left: 20px;
+  text-align: center;
   margin-top: 5px;
 }
 
