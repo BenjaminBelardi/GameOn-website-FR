@@ -19,6 +19,7 @@ const modalPopupBtn = document.querySelector(".button-confirm");
 const modalClose = document.querySelector(".close");
 // Variables
 let radioCheck = [];
+// object selection error messages and validation fonction by name or type input form element.
 const validationTypes = {
   first: {
     errorMsg: "Veuillez entrer au moins 2 caractères",
@@ -115,32 +116,63 @@ function BirthdateIsValid(elt) {
 }
 function QuantityIsValid(elt) {
   let isValid = true;
-  if (elt.value == "" || isNaN(elt.value)) {
+  if (elt.value === "" || isNaN(elt.value)) {
     isValid = false;
   }else if (elt.value == 0){
-    radio.forEach((status) => status.checked = false);
+    radio.forEach((status) => status.checked = false,status.disabled = false);
+    radioCheck = [];
+    removeErrorMessage(formData[5]);
+  }else if (elt.value > 0 && !radioCheck.includes(true)){
+    addErrorMessage( formData[5], validationTypes[formData[5].type].errorMsg) ;
   }
   return isValid;
 }
 function RadioIsValid(elt) {
   radioCheck.push(elt.checked);
-  if (radioCheck.length == 6 && radioCheck.includes(true) || formData[4].value == 0) {
-    return true, radioCheck = [];
+  if ((radioCheck.includes(true) && formData[4].value > 0)) {
+    return true;
+  }else if ((radioCheck.includes(true) && formData[4].value == 0)){
+    addErrorMessage( formData[4], validationTypes[formData[4].id].errorMsg)
+    return true;
+  }else if ( !radioCheck.includes(true) && formData[4].value == 0){
+    return true;
   }
   return false;
 }
 function CheckboxIsValid(elt) {
-  if (elt.id == "checkbox1") {
+  if (elt.id === "checkbox1") {
     return elt.checked === true;
   }
 }
-// add event "inout" for all input form elements
+// add event "input" for all input form elements
 formData.forEach((input) => input.addEventListener("input", ValidModal));
-// test the validity of all input elements
-function ValidModal(){
+// test the validity of input elements
+function ValidModal(e){
+  const element = e.target;
+    if (element.type === "radio" || element.type === "checkbox" && element.id !== "checkbox2") {
+      if (!window[validationTypes[element.type].fct](element)) {
+        addErrorMessage(element, validationTypes[element.type].errorMsg);
+        validations[element.type] = false;
+      } else {
+        validations[element.type] = true;
+        removeErrorMessage(element);
+      }
+    }
+    if (element.type !== "radio" && element.type !== "checkbox" && element.type !== "submit") {
+      if (!window[validationTypes[element.id].fct](element)){
+        addErrorMessage(element, validationTypes[element.id].errorMsg);
+        validations[element.id] = false;
+      } else {
+        validations[element.id] = true;
+        removeErrorMessage(element);
+      }
+    }
+}
+// test the validity of all input elements at submition
+function ValidModalSubmition(e){
   radioCheck = [];
   for (let element of formData) {
-    if (element.type == "radio" || element.type == "checkbox" && element.id !== "checkbox2") {
+    if (element.type === "radio" || element.type === "checkbox" && element.id !== "checkbox2") {
       if (!window[validationTypes[element.type].fct](element)) {
         addErrorMessage(element, validationTypes[element.type].errorMsg);
         validations[element.type] = false;
@@ -151,8 +183,8 @@ function ValidModal(){
     }
     if (element.type !== "radio" && element.type !== "checkbox" && element.type !== "submit") {
       if (!window[validationTypes[element.id].fct](element)) {
-        addErrorMessage(element, validationTypes[element.id].errorMsg);
-        validations[element.id] = false;
+          addErrorMessage(element, validationTypes[element.id].errorMsg);
+          validations[element.id] = false;
       } else {
         validations[element.id] = true;
         removeErrorMessage(element);
@@ -160,17 +192,16 @@ function ValidModal(){
     }
   }
 }
+document.querySelector("form").addEventListener("submit", validate);
 // form validation
-function validate(myForm) {
-  ValidModal();
+function validate(event) {
+  event.preventDefault()
+  ValidModalSubmition(event);
   //check if all form input are valid
   let noErrors = Object.keys(validations).every(function (k) {
     return validations[k] === true;
   });
   if (noErrors) {
     confirmModal();
-    return false;
-  } else {
-    return false;
   }
 }
