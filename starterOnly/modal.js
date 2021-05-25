@@ -41,11 +41,11 @@ const validationTypes = {
     errorMsg: "Veuillez rentrer un nombre entre 0 et 99",
     fct: "QuantityIsValid"
   },
-  radio: {
+  location: {
     errorMsg: "Veuillez selectionner une ville",
     fct: "RadioIsValid"
   },
-  checkbox: {
+  condition: {
     errorMsg: "Veuillez accepter les conditions d'utilisations",
     fct: "CheckboxIsValid"
   }
@@ -57,8 +57,8 @@ let validations = {
   email: false,
   birthdate: false,
   quantity: false,
-  radio: false,
-  checkbox: false,
+  location: false,
+  condition: false,
 };
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -123,7 +123,8 @@ function QuantityIsValid(elt) {
     radioCheck = [];
     removeErrorMessage(formData[5]);
   }else if (elt.value > 0 && !radioCheck.includes(true)){
-    addErrorMessage( formData[5], validationTypes[formData[5].type].errorMsg) ;
+    //addErrorMessage( formData[5], validationTypes[formData[5].type].errorMsg) ;
+    addErrorMessage( formData[5], validationTypes[formData[5].name].errorMsg) ;
   }
   return isValid;
 }
@@ -132,7 +133,8 @@ function RadioIsValid(elt) {
   if ((radioCheck.includes(true) && formData[4].value > 0)) {
     return true;
   }else if ((radioCheck.includes(true) && formData[4].value == 0)){
-    addErrorMessage( formData[4], validationTypes[formData[4].id].errorMsg)
+    //addErrorMessage( formData[4], validationTypes[formData[4].id].errorMsg)
+    addErrorMessage( formData[4], validationTypes[formData[4].name].errorMsg)
     return true;
   }else if ( !radioCheck.includes(true) && formData[4].value == 0){
     return true;
@@ -149,44 +151,24 @@ formData.forEach((input) => input.addEventListener("input", ValidModal));
 // test the validity of input elements
 function ValidModal(e){
   const element = e.target;
-    if (element.type === "radio" || element.type === "checkbox" && element.id !== "checkbox2") {
-      if (!window[validationTypes[element.type].fct](element)) {
-        addErrorMessage(element, validationTypes[element.type].errorMsg);
-        validations[element.type] = false;
+      if (!window[validationTypes[element.name].fct](element)){
+        addErrorMessage(element, validationTypes[element.name].errorMsg);
+        validations[element.name] = false;
       } else {
-        validations[element.type] = true;
+        validations[element.name] = true;
         removeErrorMessage(element);
       }
-    }
-    if (element.type !== "radio" && element.type !== "checkbox" && element.type !== "submit") {
-      if (!window[validationTypes[element.id].fct](element)){
-        addErrorMessage(element, validationTypes[element.id].errorMsg);
-        validations[element.id] = false;
-      } else {
-        validations[element.id] = true;
-        removeErrorMessage(element);
-      }
-    }
 }
 // test the validity of all input elements at submition
 function ValidModalSubmition(e){
   radioCheck = [];
   for (let element of formData) {
-    if (element.type === "radio" || element.type === "checkbox" && element.id !== "checkbox2") {
-      if (!window[validationTypes[element.type].fct](element)) {
-        addErrorMessage(element, validationTypes[element.type].errorMsg);
-        validations[element.type] = false;
+    if (element.type != "submit" && element.name != "" ) {
+      if (!window[validationTypes[element.name].fct](element)) {
+          addErrorMessage(element, validationTypes[element.name].errorMsg);
+          validations[element.name] = false;
       } else {
-        validations[element.type] = true;
-        removeErrorMessage(element);
-      }
-    }
-    if (element.type !== "radio" && element.type !== "checkbox" && element.type !== "submit") {
-      if (!window[validationTypes[element.id].fct](element)) {
-          addErrorMessage(element, validationTypes[element.id].errorMsg);
-          validations[element.id] = false;
-      } else {
-        validations[element.id] = true;
+        validations[element.name] = true;
         removeErrorMessage(element);
       }
     }
