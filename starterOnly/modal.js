@@ -123,8 +123,7 @@ function QuantityIsValid(elt) {
     radioCheck = [];
     removeErrorMessage(formData[5]);
   }else if (elt.value > 0 && !radioCheck.includes(true)){
-    //addErrorMessage( formData[5], validationTypes[formData[5].type].errorMsg) ;
-    addErrorMessage( formData[5], validationTypes[formData[5].name].errorMsg) ;
+    addErrorMessage( formData[5], validationTypes[formData[5].name].errorMsg);
   }
   return isValid;
 }
@@ -132,9 +131,8 @@ function RadioIsValid(elt) {
   radioCheck.push(elt.checked);
   if ((radioCheck.includes(true) && formData[4].value > 0)) {
     return true;
-  }else if ((radioCheck.includes(true) && formData[4].value == 0)){
-    //addErrorMessage( formData[4], validationTypes[formData[4].id].errorMsg)
-    addErrorMessage( formData[4], validationTypes[formData[4].name].errorMsg)
+  }else if (radioCheck.includes(true) && formData[4].value == 0){
+    addErrorMessage( formData[4], validationTypes[formData[4].name].errorMsg);
     return true;
   }else if ( !radioCheck.includes(true) && formData[4].value == 0){
     return true;
@@ -160,7 +158,7 @@ function ValidModal(e){
       }
 }
 // test the validity of all input elements at submition
-function ValidModalSubmition(e){
+function ValidModalSubmition(){
   radioCheck = [];
   for (let element of formData) {
     if (element.type != "submit" && element.name != "" ) {
@@ -177,7 +175,7 @@ function ValidModalSubmition(e){
 document.querySelector("form").addEventListener("submit", validate);
 // form validation
 function validate(event) {
-  event.preventDefault()
+  event.preventDefault();
   ValidModalSubmition(event);
   //check if all form input are valid
   let noErrors = Object.keys(validations).every(function (k) {
