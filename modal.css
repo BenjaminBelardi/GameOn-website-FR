@@ -66,20 +66,8 @@ img {
 
 .topnav .icon {
   display: none;
+  color: #ff0000;
 }
-
-
-
-
-
- /* @media screen and (max-width: 540px) {
-  .topnav a {display: none;}
-  .topnav a.icon {
-    float: right;
-    display: block;
-    margin-top: -15px;
-  } 
-} */
 
 main {
   font-size: 130%;
@@ -179,7 +167,6 @@ label {
   font-weight: normal;
   display: inline-block;
   margin-bottom: 11px;
-
 }
 input {
   padding: 8px;
@@ -212,7 +199,7 @@ input {
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid #e54858;
 }
-/* attr permet de recupérer la valeur de l'attribut data-error qui doit contenir le message d'erreur*/
+/* attr get the data-error attribute vallue who contains the error messages*/
 input[data-error]::after {
     content: attr(data-error);
     font-size: 0.4em;
@@ -500,13 +487,11 @@ footer {
   .hero-headline {
     font-size: 5rem;
     font-weight: unset;
-    /*white-space: normal;
-    text-align: center; /* add by bb*/*/
+    /*white-space: normal;*/
   }
   .hero-text {
     width: unset;
     font-size: 2rem;
-    /*text-align: center; /* add by bb*/
   }
   .hero-img img {
     border-radius: 10px;
@@ -522,18 +507,14 @@ footer {
     text-align: center;
   }
 }
+
+
 @media screen and (max-width: 900px) {
   .topnav a {display: none;}
   .topnav a.icon {
     float: right;
     display: block;
   }
-  .header-logo{
-    margin:4.5%;
-  }
-}
-
-@media screen and (max-width: 900px) {
   .topnav.responsive {position: relative;}
   .topnav.responsive .icon {
     position: absolute;
@@ -549,8 +530,13 @@ footer {
 
 /*add by bb*/
 @media screen and (max-width: 540px){
+    .topnav{
+      margin: 3.5% 0 3.5% 7%;
+    }
     .header-logo img{
       width:50%;
+      margin-top: 6.5%;
+      margin-left: ;
     }
     .hero-content {
       min-width: unset;
@@ -566,7 +552,6 @@ footer {
     }
     label {
       font-size: 12px;
-      margin-bottom: 0px;
     }
     .content {
       margin: 20% auto;
@@ -584,18 +569,6 @@ footer {
 
 .popup-form-valid{
   display: none;
-  /* position:fixed;
-  top: 5%;
-  left:50%;
-  animation-name: modalopen;
-  animation-duration: var(--modal-duration);
-  background: #232323;
-  border-radius: 10px;
-  overflow: hidden;
-  z-index: 1;
-  width:46vh;
-  margin-left: -23vh;
-  padding: 5px 5px 10px 5px; */
 }
 
 

@@ -15,7 +15,6 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll("input");
 const radio = document.querySelectorAll("[type='radio']");
 const modalPopup = document.querySelector(".popup-form-valid");
-//const modalPopupBtn = document.querySelector(".button-confirm");
 const modalPopupBtn = document.getElementById("popup-form-valid");
 const modalClose = document.querySelector(".close");
 const popupModalClose = document.getElementById("closeConfirmModal");
