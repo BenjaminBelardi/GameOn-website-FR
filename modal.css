@@ -123,11 +123,12 @@ main {
   display: block;
   background: #fe142f;
   margin-top: 0.8em;
+  margin-bottom: 1.1rem;
   margin-left: auto;
   margin-right: auto;
-  padding: 1em;
+  padding: 1rem 5rem;
   color: #fff;
-  border-radius: 15px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
   border: none;
@@ -200,7 +201,7 @@ input {
   display: block;
   margin-top: 7px;
   margin-bottom: 7px;
-  text-align: right;
+  text-align: left;
   line-height: 0.3;
   opacity: 0;
   transition: 0.3s;
@@ -211,7 +212,7 @@ input {
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid #e54858;
 }
-/* zttr permet de recupérer la valeur de l'attribut data-error qui doit contenir le message d'erreur*/
+/* attr permet de recupérer la valeur de l'attribut data-error qui doit contenir le message d'erreur*/
 input[data-error]::after {
     content: attr(data-error);
     font-size: 0.4em;
@@ -390,7 +391,7 @@ input[data-error]::after {
   font-size: 16px;
 }
 .hero-section {
-  min-height: 93vh;
+  min-height: 69vh;
   border-radius: 10px;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -464,11 +465,26 @@ footer {
   padding-right: 2vw;
   margin: 0 20px;
 }
-/*max-width modified by bb*/
+
+.msg-valid{
+  display: block;
+  font-size: 2rem;
+  color: #fff;
+  font-weight: 100;
+  text-align: center;
+  margin: 18rem 5rem;
+}
+
 @media screen and (max-width: 900px) {
+  main{
+    margin:1px 20px 0px;
+  }
   .hero-section {
     display: block;
     box-shadow: unset;
+    margin-top: -1rem;
+    margin-bottom: 0;
+    min-height: auto;
   }
   .hero-content {
     background: #fff;
@@ -482,18 +498,19 @@ footer {
     display: none;
   }
   .hero-headline {
-    font-size: 4.5rem;
-    white-space: normal;
-    text-align: center; /* add by bb*/
+    font-size: 5rem;
+    font-weight: unset;
+    /*white-space: normal;
+    text-align: center; /* add by bb*/*/
   }
   .hero-text {
     width: unset;
-    font-size: 1.5rem;
-    text-align: center; /* add by bb*/
+    font-size: 2rem;
+    /*text-align: center; /* add by bb*/
   }
   .hero-img img {
     border-radius: 10px;
-    margin-top: 40px;
+    margin-top: 1rem;
   }
   .hero-section > .btn-signup {
     display: block;
@@ -501,7 +518,7 @@ footer {
     padding: 12px 35px;
   }
   .copyrights {
-    margin-top: 50px;
+    margin: 0 0 1rem 0;
     text-align: center;
   }
 }
@@ -510,6 +527,9 @@ footer {
   .topnav a.icon {
     float: right;
     display: block;
+  }
+  .header-logo{
+    margin:4.5%;
   }
 }
 
@@ -529,18 +549,42 @@ footer {
 
 /*add by bb*/
 @media screen and (max-width: 540px){
+    .header-logo img{
+      width:50%;
+    }
     .hero-content {
       min-width: unset;
       padding: unset;
     }
     .hero-headline {
-      font-size: 3rem;
+      font-size: 2.4rem;
+    }
+    .hero-text {
+      width: unset;
+      font-size: .9rem;
+      margin-top: .5rem;
+    }
+    label {
+      font-size: 12px;
+      margin-bottom: 0px;
+    }
+    .content {
+      margin: 20% auto;
+    }
+    .modal-body {
+      padding: 0px 8%;
+    }
+    .text-label {
+      font-size: 12px;
+    }
+    .msg-valid{
+      margin: 10.5rem 4rem;
     }
 }
 
 .popup-form-valid{
   display: none;
-  position:fixed;
+  /* position:fixed;
   top: 5%;
   left:50%;
   animation-name: modalopen;
@@ -551,16 +595,9 @@ footer {
   z-index: 1;
   width:46vh;
   margin-left: -23vh;
-  padding: 5px 5px 10px 5px;
+  padding: 5px 5px 10px 5px; */
 }
-.msg-valid{
-  display: block;
-  font-size: 1rem;
-  color: #fff;
-  font-weight: 100;
-  text-align: center;
-  margin-top: 5px;
-}
+
 
 @keyframes modalopen {
   from {

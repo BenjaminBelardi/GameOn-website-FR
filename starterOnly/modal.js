@@ -15,8 +15,10 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll("input");
 const radio = document.querySelectorAll("[type='radio']");
 const modalPopup = document.querySelector(".popup-form-valid");
-const modalPopupBtn = document.querySelector(".button-confirm");
+//const modalPopupBtn = document.querySelector(".button-confirm");
+const modalPopupBtn = document.getElementById("popup-form-valid");
 const modalClose = document.querySelector(".close");
+const popupModalClose = document.getElementById("closeConfirmModal");
 // Variables
 let radioCheck = [];
 // object selection error messages and validation fonction by name or type input form element.
@@ -69,6 +71,7 @@ function launchModal() {
 // close modal event
 modalClose.addEventListener("click", closeModal);
 modalPopupBtn.addEventListener("click", closeConfirmModalPopUp);
+popupModalClose.addEventListener("click", closeConfirmModalPopUp);
 //close modal form
 function closeModal() {
   modalbg.style.display = "none";
